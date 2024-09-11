@@ -1,0 +1,18 @@
+
+<h2 class="titulo">Lista de Usuários</h2>  
+
+<div class="usuario-grid">
+    <!-- Loop através de cada usuário na lista -->
+    {% for usuario in usuarios %}  
+        <div class="usuario-card">
+            <h3>{{ usuario.nome }}</h3>  
+            <p>{{ usuario.telefone }}</p>  
+            
+            <!-- Se o usuário logado for administrador ou o próprio usuário, exibe links de edição e exclusão -->
+            {% if user.is_staff or user == usuario.user %}
+                <a href="{% url 'editar_usuario' usuario.id %}">Editar</a> |
+            {% endif %}
+        </div>
+    {% endfor %}
+</div>
+
