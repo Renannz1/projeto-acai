@@ -15,7 +15,6 @@ def listar_usuarios(request):
 
 
 
-# ------- metodo para editar usuario -------
 def editar_usuario(request, usuario_id):
     # Busca o objeto Usuario correspondente ao usuario_id no banco de dados.
     # Se não encontrar, retorna uma página 404 (não encontrado).
@@ -28,7 +27,7 @@ def editar_usuario(request, usuario_id):
             form = UsuarioForm(request.POST, instance=usuario)
             if form.is_valid():
                 form.save()
-                return redirect('listar_usuarios')
+                return redirect('')
         else:
             form = UsuarioForm(instance=usuario)
         return render(request, 'usuario/editar_usuario.html', {'form': form})
@@ -70,7 +69,7 @@ def register(request):
             usuario.save()
 
             login(request, user)
-            return redirect('listar_usuarios')
+            return redirect('')
     else:
         user_form = UserRegisterForm()
         usuario_form = UsuarioForm()
@@ -89,12 +88,13 @@ def login_view(request):
         if form.is_valid():
             user = form.get_user()
             login(request, user)
-            return redirect('listar_usuarios')
+            return redirect('')
     else:
         # Se o método não for POST, cria uma instância vazia do formulário de login
         form = UserLoginForm()
 
     return render(request, 'usuario/login_usuario.html', {'form': form})
+
 
 
 def custom_logout(request):

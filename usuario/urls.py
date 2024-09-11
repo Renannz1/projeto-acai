@@ -4,7 +4,7 @@ from .views import custom_logout, register, login_view
 
 
 urlpatterns = [
-    path('listar/', views.listar_usuarios, name='listar_usuarios'),
+    path('', views.listar_usuarios, name='listar_usuarios'),
     path('editar/<int:usuario_id>/', views.editar_usuario, name='editar_usuario'),
 
     path('perfil/', views.perfil_usuario, name='perfil_usuario'),
