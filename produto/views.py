@@ -27,9 +27,9 @@ def editar_produto(request, produto_id):
         form = ProdutoForm(instance=produto)
     return render(request, 'produto/editar_produto.html', {'form': form})
 
-def excluir_produto(request, produto_id):
+def remover_produto(request, produto_id):
     produto = get_object_or_404(Produto, id=produto_id)
     if request.method == 'POST':
         produto.delete()
         return redirect('listar_produtos')
-    return render(request, 'produto/excluir_produto.html', {'produto': produto})
+    return render(request, 'produto/remover_produto.html', {'produto': produto})
