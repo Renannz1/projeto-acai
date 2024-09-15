@@ -1,6 +1,5 @@
-<h2>Resumo do Pedido</h2>
-<p>Produto: {{ item_pedido.produto.nome }}</p>
-<p>Tamanho: {{ item_pedido.tamanho.nome }} (+R${{ item_pedido.tamanho.preco_adicional }})</p>
-<p>Quantidade: {{ item_pedido.quantidade }}</p>
-<p>Total Final: R${{ total_final }}</p>
-<a href="{% url 'lista_acai_prontos' %}">Voltar para a lista</a>
+<h1>Resumo do Pedido</h1>
+<p>Produto: {{ pedido.produto.nome }}</p>
+<p>Tamanho: {{ pedido.tamanho.nome }}</p>
+<p>Quantidade: {{ pedido.quantidade }}</p>
+<p>Total: R${{ total_final }}</p>
