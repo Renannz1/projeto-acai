@@ -1,0 +1,5 @@
+<h2>Resumo do Pedido Personalizado</h2>
+<p>Ingredientes: {{ pedido.ingredientes.all|join:", " }}</p>
+<p>Tamanho: {{ pedido.tamanho.nome }}</p>
+<p>Quantidade: {{ pedido.quantidade }}</p>
+<p>Valor Total: R$ {{ total_final }}</p>
