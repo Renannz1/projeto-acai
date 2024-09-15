@@ -1,8 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
-
-from produto.models import Produto
 from .models import PedidoProduto
 from .forms import PedidoProdutoForm
+from produto.models import Produto
 
 def listar_index(request):
     produtos = Produto.objects.all()
@@ -13,10 +12,12 @@ def fazer_pedido(request, produto_id):
     if request.method == 'POST':
         form = PedidoProdutoForm(request.POST)
         if form.is_valid():
-            pedido = form.save()
+            pedido = form.save(commit=False)
+            pedido.produto = produto  
+            pedido.save()
             return redirect('resumo_pedido', pedido_id=pedido.id)
     else:
-        form = PedidoProdutoForm(initial={'produto': produto})
+        form = PedidoProdutoForm()
     return render(request, 'pedido/fazer_pedido.html', {'form': form, 'produto': produto})
 
 def resumo_pedido(request, pedido_id):

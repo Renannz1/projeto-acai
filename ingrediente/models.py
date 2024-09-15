@@ -19,4 +19,4 @@ class Tamanho(models.Model):
     preco_adicional = models.DecimalField(max_digits=5, decimal_places=2)
 
     def __str__(self):
-        return f"{self.nome} (+R${self.preco_adicional})"
+        return f"{self.nome} (+R$ {self.preco_adicional})"
