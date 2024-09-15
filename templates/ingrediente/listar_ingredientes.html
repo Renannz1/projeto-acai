@@ -1,3 +1,19 @@
+<h1>Lista de Tamanhos</h1>
+<a href="{% url 'adicionar_tamanho' %}">Adicionar Tamanho</a>
+<ul>
+    
+    {% for tamanho in tamanhos %}
+    <li>
+        {{ tamanho.nome }} - {{ tamanho.preco_adicional }}
+        <a href="{% url 'editar_tamanho' tamanho.id %}">Editar</a> |
+        <a href="{% url 'remover_tamanho' tamanho.id %}">Remover</a>
+    </li>
+    {% empty %}
+        <p>Nenhum tamanho disponivel.</p>
+    {% endfor %}
+        
+</ul>
+
 <h1>Lista de Ingredientes</h1>
 <a href="{% url 'adicionar_ingrediente' %}">Adicionar Novo Ingrediente</a>
 <ul>
@@ -5,7 +21,9 @@
     <li>
         {{ ingrediente.nome }} - {{ ingrediente.preco_adicional }}
         <a href="{% url 'editar_ingrediente' ingrediente.id %}">Editar</a> |
-        <a href="{% url 'remover_ingrediente' ingrediente.id %}">Excluir</a>
+        <a href="{% url 'remover_ingrediente' ingrediente.id %}">Remover</a>
     </li>
+    {% empty %}
+        <p>Nenhum ingrediente disponivel.</p>
     {% endfor %}
 </ul>

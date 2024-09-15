@@ -1,0 +1,7 @@
+<h2>Fazer Pedido: {{ produto.nome }}</h2>
+<p>Preço base: R${{ produto.preco }}</p>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Finalizar Pedido</button>
+</form>

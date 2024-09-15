@@ -1,0 +1,9 @@
+<h2>Escolha seu Açaí Pronto</h2>
+<ul>
+    {% for produto in produtos %}
+    <li>
+        {{ produto.nome }} - R${{ produto.preco }}
+        <a href="{% url 'fazer_pedido' produto.id %}">Fazer Pedido</a>
+    </li>
+    {% endfor %}
+</ul>

@@ -3,6 +3,6 @@ from .models import Produto
 
 @admin.register(Produto)
 class ProdutoAdmin(admin.ModelAdmin):
-    list_display = ('nome', 'preco', 'descricao')  
-    search_fields = ['nome', 'descricao'] 
+    list_display = ('nome', 'preco')  
+    search_fields = ['nome'] 
 

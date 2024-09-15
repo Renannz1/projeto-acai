@@ -1,42 +1,37 @@
-from django.shortcuts import get_object_or_404, render, redirect
-from .models import PedidoAcaiPersonalizado, PedidoAcaiPronto
-from .forms import PedidoAcaiPersonalizadoForm, PedidoAcaiProntoForm
+from django.shortcuts import render, get_object_or_404, redirect
+from produto.models import Produto
+from .models import ItemPedido
+from ingrediente.models import Tamanho
+from .forms import PedidoProdutoForm
 
-def fazer_pedido_acai_pronto(request):
+
+
+def listar_index(request):
+    produtos = Produto.objects.all()
+    return render(request, 'pedido/index.html', {'produtos': produtos})
+
+def fazer_pedido(request, produto_id):
+    produto = get_object_or_404(Produto, id=produto_id)
+
     if request.method == 'POST':
-        form = PedidoAcaiProntoForm(request.POST)
+        form = PedidoProdutoForm(request.POST)
         if form.is_valid():
-            pedido = form.save(commit=False)
-            pedido.usuario = request.user
-            pedido.save()
-            return redirect('resumo_pedido_pronto', pedido_id=pedido.id)
+            item_pedido = form.save(commit=False)
+            item_pedido.produto = produto
+            item_pedido.save()
+
+            return redirect('resumo_pedido', item_pedido_id=item_pedido.id)
     else:
-        form = PedidoAcaiProntoForm()
-    
-    return render(request, 'pedido/pedido_acai_pronto.html', {'form': form})
+        form = PedidoProdutoForm()
 
+    return render(request, 'pedido/fazer_pedido.html', {'produto': produto, 'form': form})
 
-def fazer_pedido_acai_personalizado(request):
-    if request.method == 'POST':
-        form = PedidoAcaiPersonalizadoForm(request.POST)
-        if form.is_valid():
-            pedido = form.save(commit=False)
-            pedido.usuario = request.user
-            pedido.save()
-            form.save_m2m()  # para salvar os ingredientes selecionados na relação m2m
-            return redirect('resumo_pedido_personalizado', pedido_id=pedido.id)
-    else:
-        form = PedidoAcaiPersonalizadoForm()
-    
-    return render(request, 'pedido/pedido_acai_personalizado.html', {'form': form})
+def resumo_pedido(request, item_pedido_id):
+    item_pedido = get_object_or_404(ItemPedido, id=item_pedido_id)
+    total = item_pedido.produto.preco + item_pedido.tamanho.preco_adicional
+    total_final = total * item_pedido.quantidade
 
-
-def resumo_pedido_pronto(request, pedido_id):
-    pedido = get_object_or_404(PedidoAcaiPronto, id=pedido_id)
-    return render(request, 'resumo_acai_pronto.html', {'pedido': pedido})
-
-def resumo_pedido_personalizado(request, pedido_id):
-    pedido = get_object_or_404(PedidoAcaiPersonalizado, id=pedido_id)
-    return render(request, 'resumo_acai_personalizado.html', {'pedido': pedido})
-
-
+    return render(request, 'pedido/resumo_pedido.html', {
+        'item_pedido': item_pedido,
+        'total_final': total_final
+    })

@@ -1,0 +1,8 @@
+<h2>Remover Tamanho</h2>
+<p>Tem certeza de que deseja remover o tamanho "{{ tamanho.nome }}"?</p>
+
+<form method="POST">
+    {% csrf_token %}
+    <button type="submit">Confirmar</button>
+</form>
+<a href="{% url 'listar_tamanhos' %}">Cancelar</a>
