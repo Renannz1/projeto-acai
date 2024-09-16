@@ -1,20 +1,35 @@
-<h2>Pedido Confirmado!</h2>
+{% extends 'base.html' %}
 
-{% if tipo_pedido == 'produto' %}
-    <p>Seu pedido de {{ pedido.produto.nome }} foi confirmado com sucesso.</p>
-{% elif tipo_pedido == 'personalizado' %}
-    <p>Seu pedido personalizado de {{ pedido.sabor.nome }} foi confirmado com sucesso.</p>
-<p>Acompanhamentos:</p>
-<ul>
-    {% for acompanhamento in pedido.acompanhamentos.all %}
-        <li>{{ acompanhamento.nome }}</li>
-    {% empty %}
-        <li>Nenhum acompanhamento selecionado</li>
-    {% endfor %}
-</ul>
-{% endif %}
+{% block content %}
+<div class="container mt-5">
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h2 class="card-title text-center">Pedido Confirmado!</h2>
+            
+            <div class="mt-4">
+                {% if tipo_pedido == 'produto' %}
+                    <p>Seu pedido de <strong>{{ pedido.produto.nome }}</strong> foi confirmado com sucesso.</p>
+                {% elif tipo_pedido == 'personalizado' %}
+                    <p>Seu pedido personalizado de <strong>{{ pedido.sabor.nome }}</strong> foi confirmado com sucesso.</p>
 
-<p>Método de Pagamento: {{ pedido.get_metodo_pagamento_display }}</p>
-<p>Status: {{ pedido.get_status_display }}</p>
+                    <h5 class="mt-3">Acompanhamentos:</h5>
+                    <ul class="list-group mb-3">
+                        {% for acompanhamento in pedido.acompanhamentos.all %}
+                            <li class="list-group-item">{{ acompanhamento.nome }}</li>
+                        {% empty %}
+                            <li class="list-group-item">Nenhum acompanhamento selecionado</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
 
-<a href="{% url 'listar_index' %}">Voltar para a página inicial</a>
+            <p><strong>Método de Pagamento:</strong> {{ pedido.get_metodo_pagamento_display }}</p>
+            <p><strong>Status:</strong> {{ pedido.get_status_display }}</p>
+
+            <div class="text-center mt-4">
+                <a href="{% url 'listar_index' %}" class="btn btn-primary">Voltar para a página inicial</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

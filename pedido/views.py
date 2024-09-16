@@ -86,13 +86,18 @@ def fazer_pedido_personalizado(request):
         form = PedidoPersonalizadoForm(request.POST)
         if form.is_valid():
             pedido_personalizado = form.save(commit=False)
-            pedido_personalizado.usuario = request.user 
+            pedido_personalizado.usuario = request.user
             pedido_personalizado.save()
+            
+            # Salvar os acompanhamentos ManyToMany
+            form.save_m2m()
+            
             return redirect('resumo_pedido_personalizado', pedido_id=pedido_personalizado.id)
     else:
         form = PedidoPersonalizadoForm()
 
     return render(request, 'pedido/fazer_pedido_personalizado.html', {'form': form})
+
 
 
 @login_required

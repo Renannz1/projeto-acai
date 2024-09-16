@@ -1,15 +1,29 @@
-<h1>Escolha seu Açaí Pronto</h1>
-<ul>
-    {% for produto in produtos %}
-        <li>
-            {{ produto.nome }} - R${{ produto.preco }}
-            <a href="{% url 'fazer_pedido' produto.id %}">Fazer Pedido</a>
-        </li>
-    {% endfor %}
-</ul>
+{% extends 'base.html' %}
 
-<a href="{% url 'fazer_pedido_personalizado' %}">Monte do seu jeito aqui.</a>
+{% block title %}Escolha seu Açaí Pronto{% endblock %}
 
-<br>
-
-<a href="{% url 'meus_pedidos' %}">Meus Pedidos</a>
+{% block content %}
+<div class="container mt-4">
+    <h1 class="text-center mb-4">Escolha seu Açaí</h1>
+    
+    <div class="list-group">
+        {% for produto in produtos %}
+            <a href="{% url 'fazer_pedido' produto.id %}" class="list-group-item list-group-item-action">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">{{ produto.nome }}</h5>
+                    <small>R${{ produto.preco }}</small>
+                </div>
+                <p class="mb-1">Clique aqui para fazer o pedido.</p>
+            </a>
+        {% endfor %}
+    </div>
+    
+    <div class="mt-4">
+        <a href="{% url 'fazer_pedido_personalizado' %}" class="btn btn-success btn-lg btn-block">Monte do seu jeito aqui.</a>
+    </div>
+    
+    <div class="mt-3">
+        <a href="{% url 'meus_pedidos' %}" class="btn btn-secondary btn-lg btn-block">Meus Pedidos</a>
+    </div>
+</div>
+{% endblock %}

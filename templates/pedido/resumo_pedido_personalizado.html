@@ -1,21 +1,36 @@
-<h2>Resumo do Pedido Personalizado</h2>
-<p>Sabor: {{ pedido.sabor.nome }}</p>
-<p>Acompanhamentos:</p>
-<ul>
-    {% for acompanhamento in pedido.acompanhamentos.all %}
-        <li>{{ acompanhamento.nome }}</li>
-    {% empty %}
-        <li>Nenhum acompanhamento selecionado</li>
-    {% endfor %}
-</ul>
-<p>Tamanho: {{ pedido.tamanho.nome }}</p>
-<p>Quantidade: {{ pedido.quantidade }}</p>
-<p>Valor Total: R$ {{ total_final }}</p>
+{% extends 'base.html' %}
 
-<form method="POST">
-    {% csrf_token %}
-    <h3>Método de Pagamento</h3>
-    {{ form.as_p }}  
+{% block title %}Resumo do Pedido Personalizado{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header">
+            <h2 class="text-center">Resumo do Pedido Personalizado</h2>
+        </div>
+        <div class="card-body">
+            <p><strong>Sabor:</strong> {{ pedido.sabor.nome }}</p>
+            <p><strong>Acompanhamentos:</strong></p>
+            <ul class="list-group mb-3">
+                {% for acompanhamento in pedido.acompanhamentos.all %}
+                    <li class="list-group-item">{{ acompanhamento.nome }}</li>
+                {% empty %}
+                    <li class="list-group-item">Nenhum acompanhamento selecionado</li>
+                {% endfor %}
+            </ul>
+            <p><strong>Tamanho:</strong> {{ pedido.tamanho.nome }}</p>
+            <p><strong>Quantidade:</strong> {{ pedido.quantidade }}</p>
+            <p><strong>Valor Total:</strong> R$ {{ total_final }}</p>
+        </div>
+    </div>
     
-    <button type="submit">Confirmar Pedido</button>
-</form>
+    <form method="POST" class="mt-4">
+        {% csrf_token %}
+        <h3>Método de Pagamento</h3>
+        <div class="form-group">
+            {{ form.as_p }}
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Confirmar Pedido</button>
+    </form>
+</div>
+{% endblock %}

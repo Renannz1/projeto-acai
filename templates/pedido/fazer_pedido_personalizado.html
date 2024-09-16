@@ -1,7 +1,39 @@
-<h2>Monte seu Açaí Personalizado</h2>
+{% extends 'base.html' %}
 
-<form method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Finalizar Pedido</button>
-</form>
+{% block title %}Monte seu Açaí Personalizado{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h2 class="text-center mb-4">Monte seu Açaí Personalizado</h2>
+
+            <form method="POST" class="p-4 border rounded shadow-sm bg-light">
+                {% csrf_token %}
+                
+                <div class="form-group">
+                    {{ form.sabor.label_tag }}
+                    {{ form.sabor }}
+                </div>
+                
+                <div class="form-group">
+                    {{ form.acompanhamentos.label_tag }}
+                    {{ form.acompanhamentos }}
+                </div>
+
+                <div class="form-group">
+                    {{ form.tamanho.label_tag }}
+                    {{ form.tamanho }}
+                </div>
+
+                <div class="form-group">
+                    {{ form.quantidade.label_tag }}
+                    {{ form.quantidade }}
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block">Finalizar Pedido</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -2,14 +2,26 @@
 <html>
 <head>
     <title>Registrar Usuário</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-    <h1>Registrar Usuário</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ user_form.as_p }}
-        {{ usuario_form.as_p }}
-        <button type="submit">Registrar</button>
-    </form>
+    <div class="container d-flex justify-content-center align-items-center min-vh-100">
+        <div class="w-100 w-md-50">
+            <h1 class="text-center mb-4">Registrar Usuário</h1>
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    {{ user_form.as_p }}
+                </div>
+                <div class="form-group">
+                    {{ usuario_form.as_p }}
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Registrar</button>
+            </form>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

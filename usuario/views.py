@@ -69,7 +69,7 @@ def register(request):
             usuario.save()
 
             login(request, user)
-            return redirect('listar_usuarios')
+            return redirect('listar_index')
     else:
         user_form = UserRegisterForm()
         usuario_form = UsuarioForm()
@@ -88,7 +88,7 @@ def login_view(request):
         if form.is_valid():
             user = form.get_user()
             login(request, user)
-            return redirect('listar_usuarios')
+            return redirect('listar_index')
     else:
         # Se o método não for POST, cria uma instância vazia do formulário de login
         form = UserLoginForm()

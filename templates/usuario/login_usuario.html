@@ -1,9 +1,23 @@
-<h2>Entrar</h2>
-<form method="post">
-    {% csrf_token %}
-    <div>
-        {{ form.as_p }}
+{% extends 'base.html' %}
+
+{% block title %}Entrar{% endblock %}
+
+{% block content %}
+    <div class="container d-flex justify-content-center align-items-center min-vh-100">
+        <div class="w-100 w-md-50">
+            <h2>Entrar</h2>
+            <form method="post">
+                {% csrf_token %}
+                <div>
+                    {{ form.as_p }}
+                </div>
+                <button type="submit">Entrar</button>
+            </form>
+            <a href="{% url 'register'%}">Registre-se aqui.</a>
+            </form>
+        </div>
     </div>
-    <button type="submit">Entrar</button>
-</form>
-<a href="{% url 'register'%}">Registre-se aqui.</a>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    {% endblock%}
