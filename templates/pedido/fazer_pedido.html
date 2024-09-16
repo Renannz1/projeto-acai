@@ -1,30 +1,7 @@
 <h2>Pedido de {{ produto.nome }}</h2>
-<p>Preço do Produto: <span id="preco_produto">{{ produto.preco }}</span></p>
 
 <form method="POST">
     {% csrf_token %}
     {{ form.as_p }}
-    <p>Valor Total: R$ <span id="preco_final">{{ produto.preco }}</span></p>
     <button type="submit">Finalizar Pedido</button>
 </form>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const precoProduto = parseFloat("{{ produto.preco }}");
-        const tamanhoField = document.getElementById('id_tamanho');
-        const quantidadeField = document.getElementById('id_quantidade');
-        const precoFinalField = document.getElementById('preco_final');
-
-        function atualizarPrecoFinal() {
-            const quantidade = parseInt(quantidadeField.value) || 1;
-            const precoTamanho = parseFloat(tamanhoField.options[tamanhoField.selectedIndex].text.match(/\+R\$ (\d+(\.\d+)?)/)[1]) || 0;
-            const precoFinal = (precoProduto + precoTamanho) * quantidade;
-            precoFinalField.textContent = precoFinal.toFixed(2);
-        }
-
-        tamanhoField.addEventListener('change', atualizarPrecoFinal);
-        quantidadeField.addEventListener('input', atualizarPrecoFinal);
-
-        atualizarPrecoFinal(); // Atualiza na carga inicial da página
-    });
-</script>

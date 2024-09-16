@@ -1,13 +1,17 @@
 from django import forms
-from .models import Ingrediente, Tamanho
+from .models import Acompanhamento, Sabor, Tamanho
 
-class IngredienteForm(forms.ModelForm):
+class AcompanhamentoForm(forms.ModelForm):
     class Meta:
-        model = Ingrediente
-        fields = ['nome', 'tipo', 'preco_adicional']
+        model = Acompanhamento  # Alterado para Acompanhamento
+        fields = ['nome', 'preco_adicional']
+
+class SaborForm(forms.ModelForm):
+    class Meta:
+        model = Sabor
+        fields = ['nome', 'preco_adicional']
 
 class TamanhoForm(forms.ModelForm):
     class Meta:
         model = Tamanho
         fields = ['nome', 'preco_adicional']
-

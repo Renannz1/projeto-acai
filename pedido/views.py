@@ -44,3 +44,5 @@ def resumo_pedido_personalizado(request, pedido_id):
     pedido = get_object_or_404(PedidoPersonalizado, id=pedido_id)
     total_final = pedido.calcular_total()
     return render(request, 'pedido/resumo_pedido_personalizado.html', {'pedido': pedido, 'total_final': total_final})
+
+

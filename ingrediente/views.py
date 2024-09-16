@@ -1,52 +1,75 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Ingrediente, Tamanho
-from .forms import IngredienteForm, TamanhoForm
+from .models import Acompanhamento, Tamanho, Sabor
+from .forms import AcompanhamentoForm, TamanhoForm, SaborForm
 
-
-
-# -----------------------------------------------------------------------------------
+# ------------- lista todos os ingredientes -------------
 def listar_ingredientes(request):
+    acompanhamentos = Acompanhamento.objects.all()
     tamanhos = Tamanho.objects.all()
-    ingredientes = Ingrediente.objects.all()
-    return render(request, 'ingrediente/listar_ingredientes.html', {'ingredientes': ingredientes, 'tamanhos': tamanhos})
+    sabores = Sabor.objects.all()
+    return render(request, 'ingrediente/listar_ingredientes.html', {'acompanhamentos': acompanhamentos, 'tamanhos': tamanhos, 'sabores': sabores})
 
-def adicionar_ingrediente(request):
+# ------------- Acompanhamentos -------------
+def adicionar_acompanhamento(request):
     if request.method == 'POST':
-        form = IngredienteForm(request.POST)
+        form = AcompanhamentoForm(request.POST)
         if form.is_valid():
             form.save()
             return redirect('listar_ingredientes')
     else:
-        form = IngredienteForm()
-    return render(request, 'ingrediente/adicionar_ingrediente.html', {'form': form})
+        form = AcompanhamentoForm()
+    return render(request, 'ingrediente/adicionar_acompanhamento.html', {'form': form})
 
-def editar_ingrediente(request, ingrediente_id):
-    ingrediente = get_object_or_404(Ingrediente, id=ingrediente_id)
+def editar_acompanhamento(request, acompanhamento_id):
+    acompanhamento = get_object_or_404(Acompanhamento, id=acompanhamento_id)
     if request.method == 'POST':
-        form = IngredienteForm(request.POST, instance=ingrediente)
+        form = AcompanhamentoForm(request.POST, instance=acompanhamento)
         if form.is_valid():
             form.save()
             return redirect('listar_ingredientes')
     else:
-        form = IngredienteForm(instance=ingrediente)
-    return render(request, 'ingrediente/editar_ingrediente.html', {'form': form})
+        form = AcompanhamentoForm(instance=acompanhamento)
+    return render(request, 'ingrediente/editar_acompanhamento.html', {'form': form})
 
-def remover_ingrediente(request, ingrediente_id):
-    ingrediente = get_object_or_404(Ingrediente, id=ingrediente_id)
+def remover_acompanhamento(request, acompanhamento_id):
+    acompanhamento = get_object_or_404(Acompanhamento, id=acompanhamento_id)
     if request.method == 'POST':
-        ingrediente.delete()
+        acompanhamento.delete()
         return redirect('listar_ingredientes')
-    return render(request, 'ingrediente/remover_ingrediente.html', {'ingrediente': ingrediente})
-# -----------------------------------------------------------------------------------
+    return render(request, 'ingrediente/remover_acompanhamento.html', {'acompanhamento': acompanhamento})
 
 
-# -----------------------------------------------------------------------------------
+# ------------- Sabores -------------
+def adicionar_sabor(request):
+    if request.method == 'POST':
+        form = SaborForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('listar_ingredientes')
+    else:
+        form = SaborForm()
+    return render(request, 'ingrediente/adicionar_sabor.html', {'form': form})
 
-def listar_tamanhos(request):
-    tamanhos = Tamanho.objects.all()
-    return render(request, 'ingrediente/listar_tamanhos.html', {'tamanhos': tamanhos})
+def editar_sabor(request, sabor_id):
+    sabor = get_object_or_404(Sabor, id=sabor_id)
+    if request.method == 'POST':
+        form = SaborForm(request.POST, instance=sabor)
+        if form.is_valid():
+            form.save()
+            return redirect('listar_ingredientes')
+    else:
+        form = SaborForm(instance=sabor)
+    return render(request, 'ingrediente/editar_sabor.html', {'form': form})
+
+def remover_sabor(request, sabor_id):
+    sabor = get_object_or_404(Sabor, id=sabor_id)
+    if request.method == 'POST':
+        sabor.delete()
+        return redirect('listar_ingredientes')
+    return render(request, 'ingrediente/remover_sabor.html', {'sabor': sabor})
 
 
+# ------------- Tamanhos -------------
 def adicionar_tamanho(request):
     if request.method == 'POST':
         form = TamanhoForm(request.POST)
@@ -74,4 +97,3 @@ def remover_tamanho(request, tamanho_id):
         tamanho.delete()
         return redirect('listar_ingredientes')
     return render(request, 'ingrediente/remover_tamanho.html', {'tamanho': tamanho})
-# -----------------------------------------------------------------------------------

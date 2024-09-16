@@ -2,14 +2,21 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('', views.listar_ingredientes, name='listar_ingredientes'),
-    path('adicionar/', views.adicionar_ingrediente, name='adicionar_ingrediente'),
-    path('editar/<int:ingrediente_id>/', views.editar_ingrediente, name='editar_ingrediente'),
-    path('remover/<int:ingrediente_id>/', views.remover_ingrediente, name='remover_ingrediente'),
+    # lista todos os ingredientes
+    path('ingredientes/', views.listar_ingredientes, name='listar_ingredientes'),
 
-    path('tamanho/', views.listar_tamanhos, name='listar_tamanhos'),
-    path('tamanho/adicionar/', views.adicionar_tamanho, name='adicionar_tamanho'),
-    path('tamanho/editar/<int:tamanho_id>/', views.editar_tamanho, name='editar_tamanho'),
-    path('tamanho/remover/<int:tamanho_id>/', views.remover_tamanho, name='remover_tamanho'),
+    # acompanhamentos
+    path('acompanhamentos/adicionar/', views.adicionar_acompanhamento, name='adicionar_acompanhamento'),
+    path('acompanhamentos/editar/<int:acompanhamento_id>/', views.editar_acompanhamento, name='editar_acompanhamento'),
+    path('acompanhamentos/remover/<int:acompanhamento_id>/', views.remover_acompanhamento, name='remover_acompanhamento'),
+
+    # sabores
+    path('sabores/adicionar/', views.adicionar_sabor, name='adicionar_sabor'),
+    path('sabores/editar/<int:sabor_id>/', views.editar_sabor, name='editar_sabor'),
+    path('sabores/remover/<int:sabor_id>/', views.remover_sabor, name='remover_sabor'),
+
+    # tamanhos
+    path('tamanhos/adicionar/', views.adicionar_tamanho, name='adicionar_tamanho'),
+    path('tamanhos/editar/<int:tamanho_id>/', views.editar_tamanho, name='editar_tamanho'),
+    path('tamanhos/remover/<int:tamanho_id>/', views.remover_tamanho, name='remover_tamanho'),
 ]
-

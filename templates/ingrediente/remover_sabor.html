@@ -1,0 +1,7 @@
+<h1>Remover sabor</h1>
+<p>Você tem certeza que deseja remover o acompanhamento {{ sabor.nome }}?</p>
+<form method="POST">
+    {% csrf_token %}
+    <button type="submit">Remover</button>
+</form>
+<a href="{% url 'listar_ingredientes' %}">Cancelar</a>

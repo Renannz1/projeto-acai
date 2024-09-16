@@ -1,7 +1,7 @@
-<h1>Adicionar Ingrediente</h1>
+<h1>Editar sabor</h1>
 <form method="POST">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Salvar</button>
+    <button type="submit">Salvar Alterações</button>
 </form>
 <a href="{% url 'listar_ingredientes' %}">Voltar à lista de ingredientes</a>
