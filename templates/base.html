@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     {% block extra_css %}{% endblock %}
     <style>
-        /* Adiciona um padding no rodapé para empurrar o conteúdo para cima */
         .content-wrapper {
             min-height: 100vh;
             display: flex;
@@ -21,6 +20,9 @@
         }
         .container {
             margin-bottom: 60px; /* Espaço para garantir que o rodapé não fique colado com o conteúdo */
+        }
+        .navbar-nav .nav-item + .nav-item {
+            margin-left: 15px; /* Espaçamento entre itens da navbar */
         }
     </style>
 </head>
@@ -36,6 +38,11 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'meus_pedidos' %}">Meus Pedidos</a>
                     </li>
+                    {% if user.is_staff %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'listar_ingredientes' %}">Ingredientes</a>
+                        </li>
+                    {% endif %}
                 </ul>
                 <ul class="navbar-nav ml-auto">
                     {% if user.is_authenticated %}
