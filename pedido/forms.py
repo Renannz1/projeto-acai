@@ -8,8 +8,6 @@ class PedidoProdutoForm(forms.ModelForm):
         model = PedidoProduto
         fields = ['tamanho', 'quantidade',]
 
-
-# forms.py
 class PedidoPersonalizadoForm(forms.ModelForm):
     sabor = forms.ModelChoiceField(
         queryset=Sabor.objects.all(),
@@ -18,7 +16,7 @@ class PedidoPersonalizadoForm(forms.ModelForm):
     )
     acompanhamentos = forms.ModelMultipleChoiceField(
         queryset=Acompanhamento.objects.all(),
-        widget=forms.CheckboxSelectMultiple,  # Isso já garante o comportamento correto
+        widget=forms.CheckboxSelectMultiple,  
         required=False,
         label="Escolha até 4 Acompanhamentos",
     )
@@ -35,11 +33,9 @@ class PedidoPersonalizadoForm(forms.ModelForm):
             raise forms.ValidationError("Você pode escolher no máximo 4 acompanhamentos.")
         return acompanhamentos
 
-
-
 class MetodoPagamentoForm(forms.Form):
     metodo_pagamento = forms.ChoiceField(
-        choices=[('pagamento_porta', 'Pagar na hora')],
+        choices=[('pagamento_na_entrega', 'Pagar na Entrega')],
         label="Escolha o Método de Pagamento",
         widget=forms.Select,
     )

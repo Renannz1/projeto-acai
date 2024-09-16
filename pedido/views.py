@@ -2,9 +2,21 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .models import PedidoPersonalizado, PedidoProduto
 from .forms import MetodoPagamentoForm, PedidoPersonalizadoForm, PedidoProdutoForm
 from produto.models import Produto
+from django.contrib.auth.decorators import user_passes_test
 
 
+# ---------- lista os pedidos dos usuarios para alterar o status --------
+@user_passes_test(lambda u: u.is_staff)
+def listar_pedidos(request):
+    pedidos_produto = PedidoProduto.objects.all()
+    pedidos_personalizado = PedidoPersonalizado.objects.all()
+    return render(request, 'pedido/listar_pedidos.html', {
+        'pedidos_produto': pedidos_produto,
+        'pedidos_personalizado': pedidos_personalizado,
+    })
 
+
+# ---------- lista as opcoes de pedidos ao usuario --------
 def listar_index(request):
     produtos = Produto.objects.all()
     return render(request, 'pedido/index.html', {'produtos': produtos})
@@ -89,6 +101,26 @@ def pedido_confirmado(request, pedido_id, tipo_pedido):
         return render(request, 'pedido/erro.html', {'mensagem': 'Tipo de pedido inválido.'})
     
     return render(request, 'pedido/pedido_confirmado.html', {'pedido': pedido, 'tipo_pedido': tipo_pedido})
+
+# ------- pedido em transito - para os dois tipo de pedido --------
+
+
+# ---------------------------------------------------------------
+def atualizar_status(request, pedido_id, tipo_pedido):
+    if tipo_pedido == 'produto':
+        pedido = get_object_or_404(PedidoProduto, id=pedido_id)
+    elif tipo_pedido == 'personalizado':
+        pedido = get_object_or_404(PedidoPersonalizado, id=pedido_id)
+    else:
+        return render(request, 'pedido/erro.html', {'mensagem': 'Tipo de pedido inválido.'})
+
+    if request.method == 'POST':
+        novo_status = request.POST.get('status')
+        if novo_status in dict(pedido.STATUS_PEDIDO).keys():  
+            pedido.status = novo_status
+            pedido.save()
+
+    return redirect('listar_pedidos') 
 
 
 

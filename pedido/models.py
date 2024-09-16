@@ -9,13 +9,15 @@ class PedidoProduto(models.Model):
     data_pedido = models.DateTimeField(auto_now_add=True)
     
     METODOS_PAGAMENTO = [
-        ('pagamento_na_hora', 'Pagar na Entrega'),
+        ('pagamento_na_entrega', 'Pagar na Entrega'),
     ]
-    metodo_pagamento = models.CharField(max_length=20, choices=METODOS_PAGAMENTO, default='pagamento_na_hora')
+    metodo_pagamento = models.CharField(max_length=20, choices=METODOS_PAGAMENTO, default='pagamento_na_entrega')
     
     STATUS_PEDIDO = [
         ('pendente', 'Pendente'),
         ('confirmado', 'Confirmado'),
+        ('em_transito', 'Em Trânsito'),
+        ('entregue', 'Entregue'),
     ]
     status = models.CharField(max_length=20, choices=STATUS_PEDIDO, default='pendente')
 
@@ -35,13 +37,15 @@ class PedidoPersonalizado(models.Model):
     data_pedido = models.DateTimeField(auto_now_add=True)
 
     METODOS_PAGAMENTO = [
-        ('pagamento_na_hora', 'Pagar na Entrega'),
+        ('pagamento_na_entrega', 'Pagar na Entrega'),
     ]
-    metodo_pagamento = models.CharField(max_length=20, choices=METODOS_PAGAMENTO, default='pagamento_na_hora')
+    metodo_pagamento = models.CharField(max_length=20, choices=METODOS_PAGAMENTO, default='pagamento_na_entrega')
 
     STATUS_PEDIDO = [
         ('pendente', 'Pendente'),
         ('confirmado', 'Confirmado'),
+        ('em_transito', 'Em Trânsito'),
+        ('entregue', 'Entregue'),
     ]
     status = models.CharField(max_length=20, choices=STATUS_PEDIDO, default='pendente')
 

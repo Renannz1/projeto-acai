@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lista de Pedidos</title>
+</head>
+<body>
+    <h1>Pedidos de Produtos</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Produto</th>
+                <th>Tamanho</th>
+                <th>Quantidade</th>
+                <th>Status</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for pedido in pedidos_produto %}
+            <tr>
+                <td>{{ pedido.id }}</td>
+                <td>{{ pedido.produto.nome }}</td>
+                <td>{{ pedido.tamanho.nome }}</td>
+                <td>{{ pedido.quantidade }}</td>
+                <td>{{ pedido.get_status_display }}</td>
+                <td>
+                    <form action="{% url 'atualizar_status' pedido_id=pedido.id tipo_pedido='produto' %}" method="post">
+                        {% csrf_token %}
+                        <select name="status" onchange="this.form.submit()">
+                            <option value="pendente" {% if pedido.status == 'pendente' %}selected{% endif %}>Pendente</option>
+                            <option value="confirmado" {% if pedido.status == 'confirmado' %}selected{% endif %}>Confirmado</option>
+                            <option value="em_transito" {% if pedido.status == 'em_transito' %}selected{% endif %}>Em Trânsito</option>
+                            <option value="entregue" {% if pedido.status == 'entregue' %}selected{% endif %}>Entregue</option>
+                        </select>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h1>Pedidos Personalizados</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Sabor</th>
+                <th>Tamanho</th>
+                <th>Quantidade</th>
+                <th>Status</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for pedido in pedidos_personalizado %}
+            <tr>
+                <td>{{ pedido.id }}</td>
+                <td>{{ pedido.sabor.nome }}</td>
+                <td>{{ pedido.tamanho.nome }}</td>
+                <td>{{ pedido.quantidade }}</td>
+                <td>{{ pedido.get_status_display }}</td>
+                <td>
+                    <form action="{% url 'atualizar_status' pedido_id=pedido.id tipo_pedido='personalizado' %}" method="post">
+                        {% csrf_token %}
+                        <select name="status" onchange="this.form.submit()">
+                            <option value="pendente" {% if pedido.status == 'pendente' %}selected{% endif %}>Pendente</option>
+                            <option value="confirmado" {% if pedido.status == 'confirmado' %}selected{% endif %}>Confirmado</option>
+                            <option value="em_transito" {% if pedido.status == 'em_transito' %}selected{% endif %}>Em Trânsito</option>
+                            <option value="entregue" {% if pedido.status == 'entregue' %}selected{% endif %}>Entregue</option>
+                        </select>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
