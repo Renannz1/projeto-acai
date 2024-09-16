@@ -6,9 +6,9 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("usuario/", include("usuario.urls")),
-    path("produto/", include("produto.urls")),
-    path("ingrediente/", include("ingrediente.urls")),
-    path("pedido/", include("pedido.urls")),
+    path('usuario/', include('usuario.urls')),
+    path('produto/', include('produto.urls')),
+    path('ingrediente/', include('ingrediente.urls')),
+    path('pedido/', include('pedido.urls')),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

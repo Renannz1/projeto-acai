@@ -6,7 +6,7 @@ class Usuario(models.Model):
     nome = models.CharField(max_length=100)
     cpf = models.CharField(max_length=11, unique=True)
     telefone = models.CharField(max_length=15)
-    endereco = models.CharField(max_length=255)
+    endereco = models.TextField(max_length=255)
 
     def __str__(self):
         return self.nome

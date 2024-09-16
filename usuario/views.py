@@ -5,16 +5,16 @@ from django.core.exceptions import PermissionDenied
 from django.contrib.auth import logout
 
 from usuario.models import Usuario
-from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 
 
-
+@login_required
 def listar_usuarios(request):
     usuarios = Usuario.objects.all()
     return render(request, 'usuario/listar_usuarios.html', {'usuarios': usuarios})
 
 
-
+@login_required
 def editar_usuario(request, usuario_id):
     # Busca o objeto Usuario correspondente ao usuario_id no banco de dados.
     # Se não encontrar, retorna uma página 404 (não encontrado).
@@ -27,7 +27,7 @@ def editar_usuario(request, usuario_id):
             form = UsuarioForm(request.POST, instance=usuario)
             if form.is_valid():
                 form.save()
-                return redirect('')
+                return redirect('listar_usuarios')
         else:
             form = UsuarioForm(instance=usuario)
         return render(request, 'usuario/editar_usuario.html', {'form': form})
@@ -36,7 +36,7 @@ def editar_usuario(request, usuario_id):
         raise PermissionDenied
 
 
-
+@login_required
 def perfil_usuario(request):
     # pega o perfil do usuário logado
     usuario = request.user.usuario
@@ -69,7 +69,7 @@ def register(request):
             usuario.save()
 
             login(request, user)
-            return redirect('')
+            return redirect('listar_usuarios')
     else:
         user_form = UserRegisterForm()
         usuario_form = UsuarioForm()
@@ -88,7 +88,7 @@ def login_view(request):
         if form.is_valid():
             user = form.get_user()
             login(request, user)
-            return redirect('')
+            return redirect('listar_usuarios')
     else:
         # Se o método não for POST, cria uma instância vazia do formulário de login
         form = UserLoginForm()

@@ -1,8 +1,11 @@
 from django.db import models
 from produto.models import Produto
 from ingrediente.models import Sabor, Acompanhamento, Tamanho
+from django.contrib.auth.models import User
+
 
 class PedidoProduto(models.Model):
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE)  
     produto = models.ForeignKey(Produto, on_delete=models.CASCADE)
     tamanho = models.ForeignKey(Tamanho, on_delete=models.CASCADE)
     quantidade = models.PositiveIntegerField(default=1)
@@ -30,6 +33,7 @@ class PedidoProduto(models.Model):
     
 
 class PedidoPersonalizado(models.Model):
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE) 
     sabor = models.ForeignKey(Sabor, on_delete=models.CASCADE)
     acompanhamentos = models.ManyToManyField(Acompanhamento, blank=True)
     tamanho = models.ForeignKey(Tamanho, on_delete=models.CASCADE)

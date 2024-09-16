@@ -1,0 +1,13 @@
+<h2>Meus Pedidos Ativos</h2>
+
+{% if tem_pedidos %}
+    {% for pedido in pedidos_produto %}
+        <p>Produto: {{ pedido.produto.nome }} - <a href="{% url 'pedido_confirmado' pedido_id=pedido.id tipo_pedido='produto' %}">Ver Detalhes</a></p>
+    {% endfor %}
+
+    {% for pedido in pedidos_personalizado %}
+        <p>Sabor: {{ pedido.sabor.nome }} - <a href="{% url 'pedido_confirmado' pedido_id=pedido.id tipo_pedido='personalizado' %}">Ver Detalhes</a></p>
+    {% endfor %}
+{% else %}
+    <p>Você não tem pedidos.</p>
+{% endif %}
