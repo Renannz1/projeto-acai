@@ -1,10 +1,21 @@
 <h2>Resumo do Pedido Personalizado</h2>
 <p>Sabor: {{ pedido.sabor.nome }}</p>
-<p>Acompanhamentos:
-    {% for acomp in pedido.acompanhamentos.all %}
-        {{ acomp.nome }}{% if not forloop.last %}, {% endif %}
+<p>Acompanhamentos:</p>
+<ul>
+    {% for acompanhamento in pedido.acompanhamentos.all %}
+        <li>{{ acompanhamento.nome }}</li>
+    {% empty %}
+        <li>Nenhum acompanhamento selecionado</li>
     {% endfor %}
-</p>
+</ul>
 <p>Tamanho: {{ pedido.tamanho.nome }}</p>
 <p>Quantidade: {{ pedido.quantidade }}</p>
-<p>Total: R$ {{ total_final }}</p>
+<p>Valor Total: R$ {{ total_final }}</p>
+
+<form method="POST">
+    {% csrf_token %}
+    <h3>Método de Pagamento</h3>
+    {{ form.as_p }}  
+    
+    <button type="submit">Confirmar Pedido</button>
+</form>

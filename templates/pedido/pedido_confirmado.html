@@ -1,0 +1,20 @@
+<h2>Pedido Confirmado!</h2>
+
+{% if tipo_pedido == 'produto' %}
+    <p>Seu pedido de {{ pedido.produto.nome }} foi confirmado com sucesso.</p>
+{% elif tipo_pedido == 'personalizado' %}
+    <p>Seu pedido personalizado de {{ pedido.sabor.nome }} foi confirmado com sucesso.</p>
+<p>Acompanhamentos:</p>
+<ul>
+    {% for acompanhamento in pedido.acompanhamentos.all %}
+        <li>{{ acompanhamento.nome }}</li>
+    {% empty %}
+        <li>Nenhum acompanhamento selecionado</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+<p>Método de Pagamento: {{ pedido.get_metodo_pagamento_display }}</p>
+<p>Status: {{ pedido.get_status_display }}</p>
+
+<a href="{% url 'listar_index' %}">Voltar para a página inicial</a>
