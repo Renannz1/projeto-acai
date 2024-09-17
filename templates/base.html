@@ -29,7 +29,7 @@
 <body>
     <div class="content-wrapper">
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <a class="navbar-brand" href="{% url 'listar_index' %}">Home</a>
+            <a class="navbar-brand" href="{% url 'listar_index' %}">Açaí Delivery</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -42,7 +42,14 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'listar_ingredientes' %}">Ingredientes</a>
                         </li>
+                        <li class="nav-item"></li>
+                            <a class="nav-link" href="{% url 'listar_produtos' %}">Produtos</a>
+                        </li>
+                        <li class="nav-item"></li>
+                            <a class="nav-link" href="{% url 'listar_pedidos' %}">Pedidos</a>
+                        </li>                        
                     {% endif %}
+
                 </ul>
                 <ul class="navbar-nav ml-auto">
                     {% if user.is_authenticated %}
@@ -63,13 +70,13 @@
 
         <div class="container mt-4">
             {% block content %}
-            <!-- Conteúdo das páginas -->
+            <!-- CONTEUDO DAS PAGINAS -->
             {% endblock %}
         </div>
 
         <footer class="bg-dark text-light py-3">
             <div class="container text-center">
-                <p>&copy; {{ current_year }} Renan Magalhães. Todos os direitos reservados.</p>
+                <p>Desenvolvido por Renan Magalhães.</p>
             </div>
         </footer>
     </div>

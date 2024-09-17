@@ -1,3 +1,4 @@
+from django.http import Http404
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import PedidoPersonalizado, PedidoProduto
 from .forms import MetodoPagamentoForm, PedidoPersonalizadoForm, PedidoProdutoForm
@@ -87,9 +88,7 @@ def fazer_pedido_personalizado(request):
         if form.is_valid():
             pedido_personalizado = form.save(commit=False)
             pedido_personalizado.usuario = request.user
-            pedido_personalizado.save()
-            
-            # Salvar os acompanhamentos ManyToMany
+            pedido_personalizado.save()            
             form.save_m2m()
             
             return redirect('resumo_pedido_personalizado', pedido_id=pedido_personalizado.id)

@@ -53,7 +53,7 @@
         </ul>
     </div>
 
-    <!-- Modal Adicionar Tamanho -->
+    <!-- modal adicionar amanho -->
     <div class="modal fade" id="modalAdicionarTamanho" tabindex="-1" role="dialog" aria-labelledby="modalAdicionarTamanhoLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -74,14 +74,16 @@
                             <label for="id_preco_adicional_tamanho">Preço Adicional</label>
                             <input type="number" step="0.01" class="form-control" id="id_preco_adicional_tamanho" name="preco_adicional" required>
                         </div>
-                        <button type="submit" class="btn btn-primary">Salvar</button>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Salvar</button>
+                        </div>
                     </form>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Modal Editar Tamanho -->
+    <!-- modal de editar tamanho -->
     <div class="modal fade" id="modalEditarTamanho" tabindex="-1" role="dialog" aria-labelledby="modalEditarTamanhoLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -103,7 +105,9 @@
                             <label for="edit_preco_adicional_tamanho">Preço Adicional</label>
                             <input type="number" step="0.01" class="form-control" id="edit_preco_adicional_tamanho" name="preco_adicional" required>
                         </div>
-                        <button type="submit" class="btn btn-primary">Atualizar</button>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Atualizar</button>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -125,7 +129,9 @@
                         {% csrf_token %}
                         <input type="hidden" id="remover_id_tamanho" name="id">
                         <p>Você tem certeza que deseja remover este tamanho?</p>
-                        <button type="submit" class="btn btn-danger">Remover</button>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-danger">Remover</button>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -153,7 +159,9 @@
                             <label for="id_preco_adicional_sabor">Preço Adicional</label>
                             <input type="number" step="0.01" class="form-control" id="id_preco_adicional_sabor" name="preco_adicional" required>
                         </div>
-                        <button type="submit" class="btn btn-primary">Salvar</button>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Salvar</button>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -182,7 +190,9 @@
                             <label for="edit_preco_adicional_sabor">Preço Adicional</label>
                             <input type="number" step="0.01" class="form-control" id="edit_preco_adicional_sabor" name="preco_adicional" required>
                         </div>
-                        <button type="submit" class="btn btn-primary">Atualizar</button>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Atualizar</button>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -204,7 +214,9 @@
                         {% csrf_token %}
                         <input type="hidden" id="remover_id_sabor" name="id">
                         <p>Você tem certeza que deseja remover este sabor?</p>
-                        <button type="submit" class="btn btn-danger">Remover</button>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-danger">Remover</button>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -232,7 +244,9 @@
                             <label for="id_preco_adicional_acompanhamento">Preço Adicional</label>
                             <input type="number" step="0.01" class="form-control" id="id_preco_adicional_acompanhamento" name="preco_adicional" required>
                         </div>
-                        <button type="submit" class="btn btn-primary">Salvar</button>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Salvar</button>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -261,7 +275,9 @@
                             <label for="edit_preco_adicional_acompanhamento">Preço Adicional</label>
                             <input type="number" step="0.01" class="form-control" id="edit_preco_adicional_acompanhamento" name="preco_adicional" required>
                         </div>
-                        <button type="submit" class="btn btn-primary">Atualizar</button>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Atualizar</button>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -283,7 +299,9 @@
                         {% csrf_token %}
                         <input type="hidden" id="remover_id_acompanhamento" name="id">
                         <p>Você tem certeza que deseja remover este acompanhamento?</p>
-                        <button type="submit" class="btn btn-danger">Remover</button>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-danger">Remover</button>
+                        </div>
                     </form>
                 </div>
             </div>
