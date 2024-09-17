@@ -1,8 +1,25 @@
-<h2>Editar Tamanho</h2>
+{% extends 'base.html' %}
 
-<form method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Atualizar</button>
-</form>
-<a href="{% url 'listar_ingrediente' %}">Voltar</a>
+{% block title %}Editar Tamanho{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">Editar Tamanho</h2>
+
+    <form method="POST" class="mb-4">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="{{ form.nome.id_for_label }}">{{ form.nome.label }}</label>
+            <input type="text" class="form-control" id="{{ form.nome.id_for_label }}" name="{{ form.nome.name }}" value="{{ form.nome.value }}" required>
+        </div>
+        <div class="form-group">
+            <label for="{{ form.preco_adicional.id_for_label }}">{{ form.preco_adicional.label }}</label>
+            <input type="number" step="0.01" class="form-control" id="{{ form.preco_adicional.id_for_label }}" name="{{ form.preco_adicional.name }}" value="{{ form.preco_adicional.value }}" required>
+        </div>
+        <div class="d-flex justify-content-start mt-4">
+            <button type="submit" class="btn btn-primary mr-2">Salvar</button>
+            <a href="{% url 'listar_ingredientes' %}" class="btn btn-secondary">Voltar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -7,7 +7,8 @@ class Produto(models.Model):
     preco = models.DecimalField(max_digits=6, decimal_places=2)
     sabor = models.ManyToManyField(Sabor, blank=True)  
     acompanhamentos = models.ManyToManyField(Acompanhamento, blank=True)  
- 
+    imagem = models.ImageField(upload_to='imagens/produtos/', null=True, blank=True)  
+
 
     def __str__(self):
         return self.nome

@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 
-{% block title %}Remover Sabor{% endblock %}
+{% block title %}Remover Acompanhamento{% endblock %}
 
 {% block content %}
 <div class="container mt-4">
-    <h2 class="mb-4">Remover Sabor</h2>
-    <p class="mb-4">Tem certeza de que deseja remover o sabor <strong>"{{ sabor.nome }}"</strong>?</p>
+    <h2 class="mb-4">Remover Acompanhamento</h2>
+    <p class="mb-4">Tem certeza de que deseja remover o acompanhamento <strong>"{{ acompanhamento.nome }}"</strong>?</p>
 
     <form method="POST" class="mb-4">
         {% csrf_token %}

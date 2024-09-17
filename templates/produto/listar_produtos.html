@@ -1,18 +1,18 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 
 {% block title %}Lista de Produtos{% endblock %}
 
 {% block content %}
 <div class="container mt-4">
     <h1 class="mb-4">Lista de Produtos</h1>
-    <button class="btn btn-primary mb-3" data-toggle="modal" data-target="#adicionarProdutoModal">Adicionar Produto</button>
+    <a href="{% url 'adicionar_produto' %}" class="btn btn-primary mb-3">Adicionar Produto</a>
     <ul class="list-group">
         {% for produto in produtos %}
             <li class="list-group-item d-flex justify-content-between align-items-center">
                 {{ produto.nome }} - R$ {{ produto.preco }}
                 <span>
-                    <button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editarProdutoModal" data-id="{{ produto.id }}" data-nome="{{ produto.nome }}" data-preco="{{ produto.preco }}">Editar</button>
-                    <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#removerProdutoModal" data-id="{{ produto.id }}">Remover</button>
+                    <a href="{% url 'editar_produto' produto.id %}" class="btn btn-warning btn-sm">Editar</a>
+                    <a href="{% url 'remover_produto' produto.id %}" class="btn btn-danger btn-sm ml-2">Remover</a>
                 </span>
             </li>
         {% empty %}
@@ -20,130 +20,4 @@
         {% endfor %}
     </ul>
 </div>
-
-<!-- Modal Adicionar Produto -->
-<div class="modal fade" id="adicionarProdutoModal" tabindex="-1" aria-labelledby="adicionarProdutoModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="adicionarProdutoModalLabel">Adicionar Novo Produto</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>            
-            </div>
-            <form method="POST" action="{% url 'adicionar_produto' %}">
-                {% csrf_token %}
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="id_nome" class="form-label">Nome</label>
-                        <input type="text" class="form-control" id="id_nome" name="nome" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="id_preco" class="form-label">Preço</label>
-                        <input type="number" step="0.01" class="form-control" id="id_preco" name="preco" required>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Salvar</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-
-
-
-
-<!-- Modal Editar Produto -->
-<div class="modal fade" id="editarProdutoModal" tabindex="-1" aria-labelledby="editarProdutoModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editarProdutoModalLabel">Editar Produto</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>    
-            </div>
-            <form method="POST" id="editarProdutoForm">
-                {% csrf_token %}
-                <input type="hidden" id="editar-produto-id" name="id">
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="editar-nome" class="form-label">Nome</label>
-                        <input type="text" class="form-control" id="editar-nome" name="nome" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="editar-preco" class="form-label">Preço</label>
-                        <input type="number" step="0.01" class="form-control" id="editar-preco" name="preco" required>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Salvar</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-
-
-
-
-<!-- Modal Remover Produto -->
-<div class="modal fade" id="removerProdutoModal" tabindex="-1" aria-labelledby="removerProdutoModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="removerProdutoModalLabel">Confirmar Remoção</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>                
-            </div>
-            <form method="POST" id="removerProdutoForm">
-                {% csrf_token %}
-                <input type="hidden" id="remover-produto-id" name="id">
-                <div class="modal-body">
-                    <p>Tem certeza de que deseja remover este produto?</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-danger">Remover</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-
-
-
-
-<script>
-// Atualiza o modal de edição com as informações do produto
-$('#editarProdutoModal').on('show.bs.modal', function (event) {
-    var button = $(event.relatedTarget); // Botão que abriu o modal
-    var id = button.data('id');
-    var nome = button.data('nome');
-    var preco = button.data('preco');
-
-    var modal = $(this);
-    modal.find('#editar-produto-id').val(id);
-    modal.find('#editar-nome').val(nome);
-    modal.find('#editar-preco').val(preco);
-    modal.find('#editarProdutoForm').attr('action', "{% url 'editar_produto' 0 %}".replace('0', id));
-});
-
-// Atualiza o modal de remoção com o ID do produto
-$('#removerProdutoModal').on('show.bs.modal', function (event) {
-    var button = $(event.relatedTarget); // Botão que abriu o modal
-    var id = button.data('id');
-
-    var modal = $(this);
-    modal.find('#remover-produto-id').val(id);
-    modal.find('#removerProdutoForm').attr('action', "{% url 'remover_produto' 0 %}".replace('0', id));
-});
-
-
-
-</script>
 {% endblock %}

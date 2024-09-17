@@ -1,380 +1,55 @@
 {% extends 'base.html' %}
 
-{% block title %}Lista de Ingredientes{% endblock %}
+{% block title %}Lista de Tamanhos, Sabores e Acompanhamentos{% endblock %}
 
 {% block content %}
-    <div class="container mt-4">
-        <h1 class="mb-4">Lista de Tamanhos</h1>
-        <button class="btn btn-primary mb-3" data-toggle="modal" data-target="#modalAdicionarTamanho">Adicionar Novo Tamanho</button>
-        <ul class="list-group mb-5">
-            {% for tamanho in tamanhos %}
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    {{ tamanho.nome }} - R$ {{ tamanho.preco_adicional }}
-                    <span>
-                        <button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#modalEditarTamanho" data-id="{{ tamanho.id }}" data-nome="{{ tamanho.nome }}" data-preco="{{ tamanho.preco_adicional }}">Editar</button>
-                        <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modalRemoverTamanho" data-id="{{ tamanho.id }}">Remover</button>
-                    </span>
-                </li>
-            {% empty %}
-                <li class="list-group-item">Nenhum tamanho disponível.</li>
-            {% endfor %}
-        </ul>
+<div class="container mt-4">
+    <h1 class="mb-4">Lista de Tamanhos</h1>
+    <a href="{% url 'adicionar_tamanho' %}" class="btn btn-primary mb-3">Adicionar Tamanho</a>
+    <ul class="list-group mb-5">
+        {% for tamanho in tamanhos %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                {{ tamanho.nome }} - R$ {{ tamanho.preco_adicional }}
+                <span>
+                    <a href="{% url 'editar_tamanho' tamanho.id %}" class="btn btn-warning btn-sm">Editar</a>
+                    <a href="{% url 'remover_tamanho' tamanho.id %}" class="btn btn-danger btn-sm ml-2">Remover</a>
+                </span>
+            </li>
+        {% empty %}
+            <li class="list-group-item">Nenhum tamanho disponível.</li>
+        {% endfor %}
+    </ul>
 
-        <h1 class="mb-4">Lista de Sabores</h1>
-        <button class="btn btn-primary mb-3" data-toggle="modal" data-target="#modalAdicionarSabor">Adicionar Novo Sabor</button>
-        <ul class="list-group mb-5">
-            {% for sabor in sabores %}
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    {{ sabor.nome }} - R$ {{ sabor.preco_adicional }}
-                    <span>
-                        <button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#modalEditarSabor" data-id="{{ sabor.id }}" data-nome="{{ sabor.nome }}" data-preco="{{ sabor.preco_adicional }}">Editar</button>
-                        <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modalRemoverSabor" data-id="{{ sabor.id }}">Remover</button>
-                    </span>
-                </li>
-            {% empty %}
-                <li class="list-group-item">Nenhum sabor disponível.</li>
-            {% endfor %}
-        </ul>
+    <h1 class="mb-4">Lista de Sabores</h1>
+    <a href="{% url 'adicionar_sabor' %}" class="btn btn-primary mb-3">Adicionar Sabor</a>
+    <ul class="list-group mb-5">
+        {% for sabor in sabores %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                {{ sabor.nome }} - R$ {{ sabor.preco_adicional }}
+                <span>
+                    <a href="{% url 'editar_sabor' sabor.id %}" class="btn btn-warning btn-sm">Editar</a>
+                    <a href="{% url 'remover_sabor' sabor.id %}" class="btn btn-danger btn-sm ml-2">Remover</a>
+                </span>
+            </li>
+        {% empty %}
+            <li class="list-group-item">Nenhum sabor disponível.</li>
+        {% endfor %}
+    </ul>
 
-        <h1 class="mb-4">Lista de Acompanhamentos</h1>
-        <button class="btn btn-primary mb-3" data-toggle="modal" data-target="#modalAdicionarAcompanhamento">Adicionar Novo Acompanhamento</button>
-        <ul class="list-group">
-            {% for acompanhamento in acompanhamentos %}
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    {{ acompanhamento.nome }} - R$ {{ acompanhamento.preco_adicional }}
-                    <span>
-                        <button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#modalEditarAcompanhamento" data-id="{{ acompanhamento.id }}" data-nome="{{ acompanhamento.nome }}" data-preco="{{ acompanhamento.preco_adicional }}">Editar</button>
-                        <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modalRemoverAcompanhamento" data-id="{{ acompanhamento.id }}">Remover</button>
-                    </span>
-                </li>
-            {% empty %}
-                <li class="list-group-item">Nenhum acompanhamento disponível.</li>
-            {% endfor %}
-        </ul>
-    </div>
-
-    <!-- modal adicionar amanho -->
-    <div class="modal fade" id="modalAdicionarTamanho" tabindex="-1" role="dialog" aria-labelledby="modalAdicionarTamanhoLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalAdicionarTamanhoLabel">Adicionar Novo Tamanho</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form id="formAdicionarTamanho" method="POST">
-                        {% csrf_token %}
-                        <div class="form-group">
-                            <label for="id_nome_tamanho">Nome</label>
-                            <input type="text" class="form-control" id="id_nome_tamanho" name="nome" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="id_preco_adicional_tamanho">Preço Adicional</label>
-                            <input type="number" step="0.01" class="form-control" id="id_preco_adicional_tamanho" name="preco_adicional" required>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary">Salvar</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- modal de editar tamanho -->
-    <div class="modal fade" id="modalEditarTamanho" tabindex="-1" role="dialog" aria-labelledby="modalEditarTamanhoLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalEditarTamanhoLabel">Editar Tamanho</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form id="formEditarTamanho" method="POST">
-                        {% csrf_token %}
-                        <input type="hidden" id="id_tamanho" name="id">
-                        <div class="form-group">
-                            <label for="edit_nome_tamanho">Nome</label>
-                            <input type="text" class="form-control" id="edit_nome_tamanho" name="nome" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="edit_preco_adicional_tamanho">Preço Adicional</label>
-                            <input type="number" step="0.01" class="form-control" id="edit_preco_adicional_tamanho" name="preco_adicional" required>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary">Atualizar</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal Remover Tamanho -->
-    <div class="modal fade" id="modalRemoverTamanho" tabindex="-1" role="dialog" aria-labelledby="modalRemoverTamanhoLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalRemoverTamanhoLabel">Remover Tamanho</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form id="formRemoverTamanho" method="POST">
-                        {% csrf_token %}
-                        <input type="hidden" id="remover_id_tamanho" name="id">
-                        <p>Você tem certeza que deseja remover este tamanho?</p>
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-danger">Remover</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal Adicionar Sabor -->
-    <div class="modal fade" id="modalAdicionarSabor" tabindex="-1" role="dialog" aria-labelledby="modalAdicionarSaborLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalAdicionarSaborLabel">Adicionar Novo Sabor</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form id="formAdicionarSabor" method="POST">
-                        {% csrf_token %}
-                        <div class="form-group">
-                            <label for="id_nome_sabor">Nome</label>
-                            <input type="text" class="form-control" id="id_nome_sabor" name="nome" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="id_preco_adicional_sabor">Preço Adicional</label>
-                            <input type="number" step="0.01" class="form-control" id="id_preco_adicional_sabor" name="preco_adicional" required>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary">Salvar</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal Editar Sabor -->
-    <div class="modal fade" id="modalEditarSabor" tabindex="-1" role="dialog" aria-labelledby="modalEditarSaborLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalEditarSaborLabel">Editar Sabor</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form id="formEditarSabor" method="POST">
-                        {% csrf_token %}
-                        <input type="hidden" id="id_sabor" name="id">
-                        <div class="form-group">
-                            <label for="edit_nome_sabor">Nome</label>
-                            <input type="text" class="form-control" id="edit_nome_sabor" name="nome" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="edit_preco_adicional_sabor">Preço Adicional</label>
-                            <input type="number" step="0.01" class="form-control" id="edit_preco_adicional_sabor" name="preco_adicional" required>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary">Atualizar</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal Remover Sabor -->
-    <div class="modal fade" id="modalRemoverSabor" tabindex="-1" role="dialog" aria-labelledby="modalRemoverSaborLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalRemoverSaborLabel">Remover Sabor</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form id="formRemoverSabor" method="POST">
-                        {% csrf_token %}
-                        <input type="hidden" id="remover_id_sabor" name="id">
-                        <p>Você tem certeza que deseja remover este sabor?</p>
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-danger">Remover</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal Adicionar Acompanhamento -->
-    <div class="modal fade" id="modalAdicionarAcompanhamento" tabindex="-1" role="dialog" aria-labelledby="modalAdicionarAcompanhamentoLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalAdicionarAcompanhamentoLabel">Adicionar Novo Acompanhamento</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form id="formAdicionarAcompanhamento" method="POST">
-                        {% csrf_token %}
-                        <div class="form-group">
-                            <label for="id_nome_acompanhamento">Nome</label>
-                            <input type="text" class="form-control" id="id_nome_acompanhamento" name="nome" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="id_preco_adicional_acompanhamento">Preço Adicional</label>
-                            <input type="number" step="0.01" class="form-control" id="id_preco_adicional_acompanhamento" name="preco_adicional" required>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary">Salvar</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal Editar Acompanhamento -->
-    <div class="modal fade" id="modalEditarAcompanhamento" tabindex="-1" role="dialog" aria-labelledby="modalEditarAcompanhamentoLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalEditarAcompanhamentoLabel">Editar Acompanhamento</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form id="formEditarAcompanhamento" method="POST">
-                        {% csrf_token %}
-                        <input type="hidden" id="id_acompanhamento" name="id">
-                        <div class="form-group">
-                            <label for="edit_nome_acompanhamento">Nome</label>
-                            <input type="text" class="form-control" id="edit_nome_acompanhamento" name="nome" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="edit_preco_adicional_acompanhamento">Preço Adicional</label>
-                            <input type="number" step="0.01" class="form-control" id="edit_preco_adicional_acompanhamento" name="preco_adicional" required>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary">Atualizar</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal Remover Acompanhamento -->
-    <div class="modal fade" id="modalRemoverAcompanhamento" tabindex="-1" role="dialog" aria-labelledby="modalRemoverAcompanhamentoLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalRemoverAcompanhamentoLabel">Remover Acompanhamento</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form id="formRemoverAcompanhamento" method="POST">
-                        {% csrf_token %}
-                        <input type="hidden" id="remover_id_acompanhamento" name="id">
-                        <p>Você tem certeza que deseja remover este acompanhamento?</p>
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-danger">Remover</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-{% endblock %}
-
-{% block extra_js %}
-<script>
-    // Preencher dados no modal de edição de tamanho
-    $('#modalEditarTamanho').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget);
-        var id = button.data('id');
-        var nome = button.data('nome');
-        var preco = button.data('preco');
-
-        var modal = $(this);
-        modal.find('#id_tamanho').val(id);
-        modal.find('#edit_nome_tamanho').val(nome);
-        modal.find('#edit_preco_adicional_tamanho').val(preco);
-    });
-
-    // Preencher dados no modal de remoção de tamanho
-    $('#modalRemoverTamanho').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget);
-        var id = button.data('id');
-
-        var modal = $(this);
-        modal.find('#remover_id_tamanho').val(id);
-    });
-
-    // Preencher dados no modal de edição de sabor
-    $('#modalEditarSabor').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget);
-        var id = button.data('id');
-        var nome = button.data('nome');
-        var preco = button.data('preco');
-
-        var modal = $(this);
-        modal.find('#id_sabor').val(id);
-        modal.find('#edit_nome_sabor').val(nome);
-        modal.find('#edit_preco_adicional_sabor').val(preco);
-    });
-
-    // Preencher dados no modal de remoção de sabor
-    $('#modalRemoverSabor').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget);
-        var id = button.data('id');
-
-        var modal = $(this);
-        modal.find('#remover_id_sabor').val(id);
-    });
-
-    // Preencher dados no modal de edição de acompanhamento
-    $('#modalEditarAcompanhamento').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget);
-        var id = button.data('id');
-        var nome = button.data('nome');
-        var preco = button.data('preco');
-
-        var modal = $(this);
-        modal.find('#id_acompanhamento').val(id);
-        modal.find('#edit_nome_acompanhamento').val(nome);
-        modal.find('#edit_preco_adicional_acompanhamento').val(preco);
-    });
-
-    // Preencher dados no modal de remoção de acompanhamento
-    $('#modalRemoverAcompanhamento').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget);
-        var id = button.data('id');
-
-        var modal = $(this);
-        modal.find('#remover_id_acompanhamento').val(id);
-    });
-</script>
+    <h1 class="mb-4">Lista de Acompanhamentos</h1>
+    <a href="{% url 'adicionar_acompanhamento' %}" class="btn btn-primary mb-3">Adicionar Acompanhamento</a>
+    <ul class="list-group">
+        {% for acompanhamento in acompanhamentos %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                {{ acompanhamento.nome }} - R$ {{ acompanhamento.preco_adicional }}
+                <span>
+                    <a href="{% url 'editar_acompanhamento' acompanhamento.id %}" class="btn btn-warning btn-sm">Editar</a>
+                    <a href="{% url 'remover_acompanhamento' acompanhamento.id %}" class="btn btn-danger btn-sm ml-2">Remover</a>
+                </span>
+            </li>
+        {% empty %}
+            <li class="list-group-item">Nenhum acompanhamento disponível.</li>
+        {% endfor %}
+    </ul>
+</div>
 {% endblock %}

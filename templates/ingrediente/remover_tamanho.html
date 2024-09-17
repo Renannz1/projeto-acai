@@ -1,8 +1,16 @@
-<h2>Remover Tamanho</h2>
-<p>Tem certeza de que deseja remover o tamanho "{{ tamanho.nome }}"?</p>
+{% extends 'base.html' %}
 
-<form method="POST">
-    {% csrf_token %}
-    <button type="submit">Confirmar</button>
-</form>
-<a href="{% url 'listar_tamanhos' %}">Cancelar</a>
+{% block title %}Remover Tamanho{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">Remover Tamanho</h2>
+    <p class="mb-4">Tem certeza de que deseja remover o tamanho <strong>"{{ tamanho.nome }}"</strong>?</p>
+
+    <form method="POST" class="mb-4">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Remover</button>
+        <a href="{% url 'listar_ingredientes' %}" class="btn btn-secondary ml-2">Cancelar</a>
+    </form>
+</div>
+{% endblock %}

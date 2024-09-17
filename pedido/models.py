@@ -10,6 +10,8 @@ class PedidoProduto(models.Model):
     tamanho = models.ForeignKey(Tamanho, on_delete=models.CASCADE)
     quantidade = models.PositiveIntegerField(default=1)
     data_pedido = models.DateTimeField(auto_now_add=True)
+    imagem = models.ImageField(upload_to='produtos/', blank=True, null=True)  
+
     
     METODOS_PAGAMENTO = [
         ('pagamento_na_entrega', 'Pagar na Entrega'),
