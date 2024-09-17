@@ -6,5 +6,5 @@ class ProdutoForm(forms.ModelForm):
         model = Produto
         fields = ['nome', 'preco', 'sabor', 'acompanhamentos', 'imagem']
         widgets = { 
-            'ingredientes':forms.CheckboxSelectMultiple
+            'acompanhamentos':forms.CheckboxSelectMultiple
         }

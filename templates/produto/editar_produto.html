@@ -1,15 +1,40 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Editar Produto</title>
-</head>
-<body>
-    <h2>Editar produto</h2>
-    <form method="POST">
+{% extends 'base.html' %}
+
+{% block title %}Editar Produto{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">Editar Produto</h2>
+    <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Salvar alterações</button>
+        <div class="mb-3">
+            <label for="{{ form.nome.id_for_label }}" class="form-label">{{ form.nome.label }}</label>
+            <input type="text" class="form-control" id="{{ form.nome.id_for_label }}" name="{{ form.nome.name }}" value="{{ form.nome.value }}">
+        </div>
+        <div class="mb-3">
+            <label for="{{ form.preco.id_for_label }}" class="form-label">{{ form.preco.label }}</label>
+            <input type="number" step="0.01" class="form-control" id="{{ form.preco.id_for_label }}" name="{{ form.preco.name }}" value="{{ form.preco.value }}">
+        </div>
+        <div class="mb-3">
+            <label for="{{ form.sabor.id_for_label }}" class="form-label">{{ form.sabor.label }}</label>
+            <select class="form-control" id="{{ form.sabor.id_for_label }}" name="{{ form.sabor.name }}">
+                {% for option in form.sabor.field.queryset %}
+                    <option value="{{ option.pk }}" {% if option.pk == form.sabor.value %}selected{% endif %}>
+                        {{ option }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="{{ form.acompanhamentos.id_for_label }}" class="form-label">{{ form.acompanhamentos.label }}</label>
+            {{ form.acompanhamentos }}
+        </div>
+        <div class="mb-3">
+            <label for="{{ form.imagem.id_for_label }}" class="form-label">{{ form.imagem.label }}</label>
+            <input type="file" class="form-control" id="{{ form.imagem.id_for_label }}" name="{{ form.imagem.name }}">
+        </div>
+        <button type="submit" class="btn btn-primary">Salvar</button>
+        <a href="{% url 'listar_produtos' %}" class="btn btn-secondary ms-2">Voltar</a>
     </form>
-    <a href="{% url 'listar_produtos' %}">Voltar à lista de produtos</a>
-</body>
-</html>
+</div>
+{% endblock %}
