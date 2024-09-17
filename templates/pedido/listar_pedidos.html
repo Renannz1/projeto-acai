@@ -4,88 +4,87 @@
 
 {% block content %}
 <div class="container mt-4">
-    <h1 class="mb-4">Pedidos de Produtos</h1>
-    <table class="table table-bordered">
-        <thead class="thead-dark">
-            <tr>
-                <th>ID</th>
-                <th>Produto</th>
-                <th>Tamanho</th>
-                <th>Quantidade</th>
-                <th>Status</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for pedido in pedidos_produto %}
-            <tr>
-                <td>{{ pedido.id }}</td>
-                <td>{{ pedido.produto.nome }}</td>
-                <td>{{ pedido.tamanho.nome }}</td>
-                <td>{{ pedido.quantidade }}</td>
-                <td>
-                    <form action="{% url 'atualizar_status' pedido_id=pedido.id tipo_pedido='produto' %}" method="post" class="d-inline">
-                        {% csrf_token %}
-                        <select name="status" class="form-control form-control-sm" onchange="this.form.submit()">
-                            <option value="pendente" {% if pedido.status == 'pendente' %}selected{% endif %}>Pendente</option>
-                            <option value="confirmado" {% if pedido.status == 'confirmado' %}selected{% endif %}>Confirmado</option>
-                            <option value="em_transito" {% if pedido.status == 'em_transito' %}selected{% endif %}>Em Trânsito</option>
-                            <option value="entregue" {% if pedido.status == 'entregue' %}selected{% endif %}>Entregue</option>
-                        </select>
-                    </form>
-                </td>
-            </tr>
-            {% empty %}
-            <tr>
-                <td colspan="6" class="text-center">Nenhum pedido de produto disponível.</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <h1 class="mb-4">Lista de Pedidos</h1>
 
-    <h1 class="mb-4">Pedidos Personalizados</h1>
-    <table class="table table-bordered">
-        <thead class="thead-dark">
-            <tr>
-                <th>ID</th>
-                <th>Sabor</th>
-                <th>Tamanho</th>
-                <th>Quantidade</th>
-                <th>Acompanhamentos</th>
-                <th>Status</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for pedido in pedidos_personalizado %}
-            <tr>
-                <td>{{ pedido.id }}</td>
-                <td>{{ pedido.sabor.nome }}</td>
-                <td>{{ pedido.tamanho.nome }}</td>
-                <td>{{ pedido.quantidade }}</td>
-                <td>
-                    {% for acompanhamento in pedido.acompanhamentos.all %}
-                        {{ acompanhamento.nome }}{% if not forloop.last %}, {% endif %}
-                    {% empty %}
-                        Nenhum acompanhamento
-                    {% endfor %}
-                </td>
-                <td>
-                    <form action="{% url 'atualizar_status' pedido_id=pedido.id tipo_pedido='personalizado' %}" method="post" class="d-inline">
-                        {% csrf_token %}
-                        <select name="status" class="form-control form-control-sm" onchange="this.form.submit()">
-                            <option value="pendente" {% if pedido.status == 'pendente' %}selected{% endif %}>Pendente</option>
-                            <option value="confirmado" {% if pedido.status == 'confirmado' %}selected{% endif %}>Confirmado</option>
-                            <option value="em_transito" {% if pedido.status == 'em_transito' %}selected{% endif %}>Em Trânsito</option>
-                            <option value="entregue" {% if pedido.status == 'entregue' %}selected{% endif %}>Entregue</option>
-                        </select>
-                    </form>
-                </td>
-            </tr>
-            {% empty %}
-            <tr>
-                <td colspan="6" class="text-center">Nenhum pedido personalizado disponível.</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <div class="mb-5">
+        <h2 class="mb-3">Pedidos de Produtos</h2>
+        {% if pedidos_produto %}
+            <div class="row">
+                {% for pedido in pedidos_produto %}
+                <div class="col-md-6 mb-3">
+                    <div class="card border-primary">
+                        <div class="card-header bg-primary text-white">
+                            Pedido ID: {{ pedido.id }}
+                        </div>
+                        <div class="card-body">
+                            <p><strong>Produto:</strong> {{ pedido.produto.nome }}</p>
+                            <p><strong>Tamanho:</strong> {{ pedido.tamanho.nome }}</p>
+                            <p><strong>Quantidade:</strong> {{ pedido.quantidade }}</p>
+                            <p><strong>Endereço:</strong> {{ pedido.endereco }}</p>
+                            <form action="{% url 'atualizar_status' pedido_id=pedido.id tipo_pedido='produto' %}" method="post" class="d-inline">
+                                {% csrf_token %}
+                                <div class="form-group">
+                                    <label for="status-{{ pedido.id }}" class="form-label">Status:</label>
+                                    <select id="status-{{ pedido.id }}" name="status" class="form-control form-control-sm" onchange="this.form.submit()">
+                                        <option value="pendente" {% if pedido.status == 'pendente' %}selected{% endif %}>Pendente</option>
+                                        <option value="confirmado" {% if pedido.status == 'confirmado' %}selected{% endif %}>Confirmado</option>
+                                        <option value="em_transito" {% if pedido.status == 'em_transito' %}selected{% endif %}>Em Trânsito</option>
+                                        <option value="entregue" {% if pedido.status == 'entregue' %}selected{% endif %}>Entregue</option>
+                                    </select>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="text-center">Nenhum pedido de produto disponível.</p>
+        {% endif %}
+    </div>
+
+    <div>
+        <h2 class="mb-3">Pedidos Personalizados</h2>
+        {% if pedidos_personalizado %}
+            <div class="row">
+                {% for pedido in pedidos_personalizado %}
+                <div class="col-md-6 mb-3">
+                    <div class="card border-primary">
+                        <div class="card-header bg-primary text-white">
+                            Pedido ID: {{ pedido.id }}
+                        </div>
+                        <div class="card-body">
+                            <p><strong>Sabor:</strong> {{ pedido.sabor.nome }}</p>
+                            <p><strong>Tamanho:</strong> {{ pedido.tamanho.nome }}</p>
+                            <p><strong>Quantidade:</strong> {{ pedido.quantidade }}</p>
+                            <p><strong>Acompanhamentos:</strong> 
+                                {% for acompanhamento in pedido.acompanhamentos.all %}
+                                    {{ acompanhamento.nome }}{% if not forloop.last %}, {% endif %}
+                                {% empty %}
+                                    Nenhum acompanhamento
+                                {% endfor %}
+                            </p>
+                            <p><strong>Endereço:</strong> {{ pedido.endereco }}</p>
+                            <form action="{% url 'atualizar_status' pedido_id=pedido.id tipo_pedido='personalizado' %}" method="post" class="d-inline">
+                                {% csrf_token %}
+                                <div class="form-group">
+                                    <label for="status-{{ pedido.id }}" class="form-label">Status:</label>
+                                    <select id="status-{{ pedido.id }}" name="status" class="form-control form-control-sm" onchange="this.form.submit()">
+                                        <option value="pendente" {% if pedido.status == 'pendente' %}selected{% endif %}>Pendente</option>
+                                        <option value="confirmado" {% if pedido.status == 'confirmado' %}selected{% endif %}>Confirmado</option>
+                                        <option value="em_transito" {% if pedido.status == 'em_transito' %}selected{% endif %}>Em Trânsito</option>
+                                        <option value="entregue" {% if pedido.status == 'entregue' %}selected{% endif %}>Entregue</option>
+                                    </select>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="text-center">Nenhum pedido personalizado disponível.</p>
+        {% endif %}
+    </div>
 </div>
 {% endblock %}
