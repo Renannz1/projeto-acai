@@ -1,10 +1,11 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.views.generic import ListView, DetailView, UpdateView, CreateView, DeleteView
 from .models import Produto
 from .forms import ProdutoForm
 
-def listar_produtos(request):
-    produtos = Produto.objects.all()
-    return render(request, 'produto/listar_produtos.html', {'produtos': produtos})
+# def listar_produtos(request):
+#     produtos = Produto.objects.all()
+#     return render(request, 'produto/listar_produtos.html', {'produtos': produtos})
 
 def adicionar_produto(request):
     if request.method == 'POST':
@@ -33,3 +34,11 @@ def remover_produto(request, produto_id):
         produto.delete()
         return redirect('listar_produtos')
     return render(request, 'produto/remover_produto.html', {'produto': produto})
+
+
+
+## USANDO CLASSES
+class ProdutoListView(ListView):
+    model = Produto
+    template_name = "produto/listar_produtos.html"
+    context_object_name = 'produtos'
