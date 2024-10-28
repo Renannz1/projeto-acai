@@ -30,24 +30,21 @@ from .forms import ProdutoForm
 #         form = ProdutoForm(instance=produto)
 #     return render(request, 'produto/editar_produto.html', {'form': form})
 
-def remover_produto(request, produto_id):
-    produto = get_object_or_404(Produto, id=produto_id)
-    if request.method == 'POST':
-        produto.delete()
-        return redirect('listar_produtos')
-    return render(request, 'produto/remover_produto.html', {'produto': produto})
+# def remover_produto(request, produto_id):
+#     produto = get_object_or_404(Produto, id=produto_id)
+#     if request.method == 'POST':
+#         produto.delete()
+#         return redirect('listar_produtos')
+#     return render(request, 'produto/remover_produto.html', {'produto': produto})
 
 
 
 ## USANDO CLASSES GENERICAS DO DJANGO
-
-
-
 class ProdutoCreateView(CreateView):
     model = Produto
     template_name = "produto/adicionar_produto.html"
-    fields = '__all__'
-    success_url = 'listar_produtos'
+    fields = ['nome', 'preco', 'sabor', 'acompanhamentos', 'imagem']
+    success_url = reverse_lazy('listar_produtos')
 
 class ProdutoListView(ListView):
     model = Produto
@@ -58,6 +55,12 @@ class ProdtuoUpdateView(UpdateView):
     model = Produto
     template_name = "produto/editar_produto.html"
     fields = ['nome', 'preco', 'sabor', 'acompanhamentos', 'imagem']
+    success_url = reverse_lazy('listar_produtos')
+
+class ProdutoDeleteView(DeleteView):
+    model = Produto
+    template_name = "produto/remover_produto.html"
+    context_object_name = 'produto'
     success_url = reverse_lazy('listar_produtos')
 
 
